@@ -38,7 +38,7 @@ def calculate_winding(inner_diameter, length, fiber_thickness, total_length, rpm
         "G21 ; Set millimeters as units",
         "G90 ; Absolute positioning",
         f"F{feed_rate} ; Set feed rate based on RPM",
-        "G0 X0 Y0 Z0 ; Initial position",
+        "G0 X0 Y0 ; Initial position",
         "M8 ; Enable fiber feed",
         "G92 E0 ; Reset extrusion distance"
     ]
@@ -69,7 +69,7 @@ def calculate_winding(inner_diameter, length, fiber_thickness, total_length, rpm
     # Finish G-code
     gcode.extend([
         "M9 ; Disable fiber feed",
-        # "G0 X0 Y0 Z0 ; Return to zero position",
+        # "G0 X0 ; Return to zero position",
         "M30 ; End of program"
     ])
     
@@ -90,7 +90,7 @@ def generate_gcode():
         total_length = float(entry_total_length.get()) * 1000000  # Переводимо в мм
         rpm = int(entry_rpm.get())
         
-        filename = filedialog.asksaveasfilename(defaultextension=".cnc", filetypes=[("CNC Files", "*.cnc"), ("All Files", "*.*")])
+        filename = filedialog.asksaveasfilename(defaultextension=".gcode", filetypes=[("G-code Files", "*.gcode"), ("All Files", "*.*")])
         if not filename:
             return
         
@@ -116,6 +116,12 @@ entry_length = tk.Entry(root)
 entry_fiber_thickness = tk.Entry(root)
 entry_total_length = tk.Entry(root)
 entry_rpm = tk.Entry(root)
+
+entry_inner_diameter.insert(0, "40")
+entry_length.insert(0, "100")
+entry_fiber_thickness.insert(0, "0.25")
+entry_total_length.insert(0, "10")
+entry_rpm.insert(0, "1500")
 
 entry_inner_diameter.grid(row=0, column=1)
 entry_length.grid(row=1, column=1)
