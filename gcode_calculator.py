@@ -64,7 +64,11 @@ def calculate_winding(inner_diameter, length, fiber_thickness, total_length, rpm
         # Add movement command with synchronized rotation
         gcode.append(f"G1 X{x_pos:.2f} Y{y_pos:.2f} E{e_value:.2f}")
 
-        e_value += (inner_diameter + 2 * fiber_thickness * layer) * math.pi * length / fiber_thickness / 1000
+        if e_value * 1000 > total_length:
+            break
+
+        e_value += (inner_diameter + 2 * fiber_thickness * (layer - 1)) * math.pi * length / fiber_thickness / 1000
+        
     
     # Finish G-code
     gcode.extend([
