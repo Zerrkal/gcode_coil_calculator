@@ -72,8 +72,6 @@ def calculate_winding(inner_diameter, length, fiber_thickness, total_length, rpm
     
     # Finish G-code
     gcode.extend([
-        "M9 ; Disable fiber feed",
-        # "G0 X0 ; Return to zero position",
         "M30 ; End of program"
     ])
     
