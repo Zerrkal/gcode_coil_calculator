@@ -58,6 +58,7 @@ def calculate_winding(inner_diameter, length, edge_diameter, edge_max, fiber_thi
                                                                        fiber_thickness=fiber_thickness,
                                                                        layers=0)
     
+    y_pos = 0
     # Generate winding pattern for complete layers
     for layer in range(calc_layers):
         edge_side_to_center_distance_i = rounded_edge_side_to_center_distance(inner_diameter=inner_diameter,
@@ -72,13 +73,12 @@ def calculate_winding(inner_diameter, length, edge_diameter, edge_max, fiber_thi
             x_pos = fiber_thickness / 2
         else:
             x_pos = length_add_on + fiber_thickness / 2
-
-        y_pos = layer * length_add_on / fiber_thickness * length_to_rotation_coef
-
         
             
         # Add movement command with synchronized rotation
         gcode.append(f"G1 X{x_pos:.2f} Y{y_pos:.2f} E{e_value:.2f}")
+
+        y_pos += length_add_on / fiber_thickness * length_to_rotation_coef
 
         if e_value * 1000 > total_length:
             break
